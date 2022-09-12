@@ -5,9 +5,6 @@
 <h2 align="center">
   SB Python ToolKit
 </h2>
-<img src="https://ratemyserver.net/skill_icons/nc_selfdestruction.gif"
-  width="50"
-  height="50" />
 <br />
 <br />
 
