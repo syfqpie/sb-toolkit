@@ -2,6 +2,7 @@ import typer
 
 from pathlib import Path
 from PyPDF2 import PdfFileReader, PdfFileWriter
+from rich.progress import track
 
 from services.helpers import Helper
 
@@ -40,20 +41,24 @@ class PDFKit():
         # Validate end page
         if end and no_of_pages < end:
             raise typer.BadParameter(
-                f'End page should be within { 1 if start == None else start } - { no_of_pages }'
+                f'⚠️ End page should be within { 1 if start == None else start } - { no_of_pages }'
             )
 
         # Get variables
         start_index = 0 if start == None else start - 1
         end_index = no_of_pages if end == None else end
         stepper = 1 if step == None or step == 0 else step
+        total = 0
 
         # Split
-        for page in range(start_index, end_index, stepper):
-            print(f'✔️ Page: { page + 1 }')
-            # pdf_writer = PdfFileWriter()
-            # pdf_writer.addPage(pdf.getPage(page))
+        for page in track(range(start_index, end_index, stepper), description='⌚ Splitting...'):
+            pdf_writer = PdfFileWriter()
+            pdf_writer.addPage(pdf.getPage(page))
 
-            # output = f'tmp_output/splitted_{ page + 1 }.pdf'
-            # with open(output, 'wb') as output_pdf:
-            #     pdf_writer.write(output_pdf)
+            output = f'tmp_output/splitted_{ page + 1 }.pdf'
+            with open(output, 'wb') as output_pdf:
+                pdf_writer.write(output_pdf)
+            
+            total += 1
+
+        print(f'✔️ Splitted to { total } files.')
