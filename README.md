@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/syfqpie/sb-toolkit/blob/pdf-split/screenshots/help.png"
+  <img src="https://github.com/syfqpie/sb-toolkit/blob/main/screenshots/help.png"
     width="800" />
 </div>
 <h2 align="center">
