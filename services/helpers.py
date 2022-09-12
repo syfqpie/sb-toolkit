@@ -1,22 +1,28 @@
 import typer
 from pathlib import Path
+from rich import print as rprint
 
 
 class Helper():
     @staticmethod
+    def header():
+        txt = f'''[bold red]
+        
+            ▀▀█▀▀ █▀▀█ █▀▀█ █── ░█─▄▀ ─▀─ ▀▀█▀▀ 
+            ──█── █▄▀█ █▄▀█ █── ░█▀▄─ ▀█▀ ─░█── 
+            ──▀── █▄▄█ █▄▄█ ▀▀▀ ░█─░█ ▀▀▀ ─░█──
+            [/bold red]'''
+        rprint(txt)
+
+    @staticmethod
     def file_checker(file_name: Path):
-        if file_name:
-            try:
-                is_file = file_name.is_file()
-                if not is_file:
-                    raise FileNotFoundError
-                else:
-                    print(f'✔️ File found: {file_name.resolve()}')
-            except FileNotFoundError:
-                print('⚠️ File not found. Try again')
-                raise typer.Abort()
+        '''
+            Check for file existance and if empty
+        '''
+        if file_name and file_name.is_file():
+            print(f'✔️ File found: {file_name.resolve()}')
         else:
-            print('⚠️ Please enter filename')
+            print('⚠️ File not found. Try again')
             raise typer.Abort()
     
     @staticmethod

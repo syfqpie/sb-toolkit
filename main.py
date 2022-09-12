@@ -2,6 +2,7 @@ import typer
 
 from pathlib import Path
 from typing import Optional
+from rich.prompt import Prompt, IntPrompt
 
 from services.helpers import Helper
 from services.pdf_kit import PDFKit
@@ -10,19 +11,22 @@ from services.pdf_kit import PDFKit
 app = typer.Typer()
 
 
-@app.command()
-def pdf_split(
-    file_name: Optional[Path] = typer.Option(None),
-    start: Optional[int] = typer.Option(None),
-    end: Optional[int] = typer.Option(None),
-    step: Optional[int] = typer.Option(None)):
+@app.command(no_args_is_help=True)
+def pdf_split(file_name: Path = typer.Argument(..., help='PDF file name', metavar='🍄 file name')):
+    '''
+    Split PDF into files
+    '''
     # Check file existance
     Helper.file_checker(file_name)
+
+    start = IntPrompt.ask('➡️ Start page')
+    end = IntPrompt.ask('➡️ End page')
+    step = IntPrompt.ask('➡️ Step')
 
     # Validate if start > end
     if start and end and start > end:
         raise typer.BadParameter(
-            f'End page should be higher than start page'
+            f'⚠️ End page should be higher than start page'
         )
 
     # Get information
@@ -31,6 +35,9 @@ def pdf_split(
     # Split
     PDFKit.split(file_name, start, end, step)
 
+
+
 if __name__ == '__main__':
+    Helper.header()
     app()
 
