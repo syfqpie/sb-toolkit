@@ -3,30 +3,33 @@ import typer
 from pathlib import Path
 from typing import Optional
 
+from services.helpers import Helper
+from services.pdf_kit import PDFKit
+
 
 app = typer.Typer()
 
-class PDFKit():
-    pass
-
 
 @app.command()
-def pdf_split(file_name: Optional[Path] = typer.Option(None)):
-    
-    if file_name:
-        try:
-            is_file = file_name.is_file()
-            if not is_file:
-                raise FileNotFoundError
-            else:
-                print(f'✔️ File found: {file_name.resolve()}')
-        except FileNotFoundError:
-            print('⚠️ File not found. Try again')
-            raise typer.Abort()
-    else:
-        print('⚠️ Please enter filename')
-        raise typer.Abort()
-    
+def pdf_split(
+    file_name: Optional[Path] = typer.Option(None),
+    start: Optional[int] = typer.Option(None),
+    end: Optional[int] = typer.Option(None),
+    step: Optional[int] = typer.Option(None)):
+    # Check file existance
+    Helper.file_checker(file_name)
+
+    # Validate if start > end
+    if start and end and start > end:
+        raise typer.BadParameter(
+            f'End page should be higher than start page'
+        )
+
+    # Get information
+    PDFKit.extract_info(file_name)
+
+    # Split
+    PDFKit.split(file_name, start, end, step)
 
 if __name__ == '__main__':
     app()
