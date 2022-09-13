@@ -1,33 +1,58 @@
-import typer
+"""
+Global helpers class
+"""
 from pathlib import Path
+
+import typer
 from rich import print as rprint
 
 
-class Helper():
+class Helper:
+    """
+    Collection of helper methods
+
+    Methods
+    -------
+    header(pdf_path):
+        Print a header
+
+    file_checker(file_name):
+        Check for file existance and if empty
+
+    init_output_dir():
+        Check for output dir
+    """
+
     @staticmethod
     def header():
-        txt = f'''[bold red]
+        """
+        Print a header
+        """
+        txt = """[bold red]
         
             ▀▀█▀▀ █▀▀█ █▀▀█ █── ░█─▄▀ ─▀─ ▀▀█▀▀ 
             ──█── █▄▀█ █▄▀█ █── ░█▀▄─ ▀█▀ ─░█── 
             ──▀── █▄▄█ █▄▄█ ▀▀▀ ░█─░█ ▀▀▀ ─░█──
-            [/bold red]'''
+            [/bold red]"""
         rprint(txt)
 
     @staticmethod
     def file_checker(file_name: Path):
-        '''
-            Check for file existance and if empty
-        '''
+        """
+        Check for file existance and if empty
+        """
         if file_name and file_name.is_file():
-            print(f'✔️ File found: {file_name.resolve()}')
+            print(f"✔️ File found: {file_name.resolve()}")
         else:
-            print('⚠️ File not found. Try again')
+            print("⚠️ File not found. Try again")
             raise typer.Abort()
-    
+
     @staticmethod
     def init_output_dir():
-        path_checker = Path('tmp_output')
+        """
+        Check for output dir, make dir if not found
+        """
+        path_checker = Path("tmp_output")
 
         if not path_checker.is_dir():
             path_checker.mkdir()

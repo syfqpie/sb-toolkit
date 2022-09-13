@@ -1,15 +1,23 @@
 <div align="center">
   <img src="https://github.com/syfqpie/sb-toolkit/blob/main/screenshots/help.png"
-    width="800" />
+    width="700" />
 </div>
-<h2 align="center">
-  SB Python ToolKit
-</h2>
 <p align="center">
-  Collection of random tools
+  <strong>
+    SB Python ToolKit.
+  <strong>
+</p>
+<p align="center">
+  <em>
+    Collection of random tools implemented using Python and 
+    <a href="https://github.com/tiangolo/typer" target="_blank">Typer</a>.
+  </em>
 </p>
 <br />
-<br />
+
+## Requirements
+
+Python 3.6+
 
 ## Installation
 
