@@ -85,6 +85,17 @@ def split(pdf_path: Path, start: int = None, end: int = None, step: int = None):
         pdf_writer = PdfFileWriter()
         pdf_writer.addPage(pdf.getPage(page))
 
+        # Add metadata
+        pdf_writer.add_metadata(
+            {
+                "/Author": "ToolKiT",
+                "/Creator": "ToolKiT",
+                "/Producer": "ToolKiT",
+                "/Subject": "PDF Splitted - ToolKiT",
+                "/Title": "PDF Splitted",
+            }
+        )
+
         # Name output and write
         output = f"tmp_output/splitted_{ page + 1 }.pdf"
         with open(output, "wb") as output_pdf:
