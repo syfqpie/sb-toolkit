@@ -22,9 +22,6 @@ def pdf_split(
     """
     Split PDF into files
 
-        Parameters:
-                    file_name (Path) : PDF file path with file name
-                    allpage  (bool)  : True if split all pages
     """
     # Check file existance
     Helper.file_checker(file_name)
