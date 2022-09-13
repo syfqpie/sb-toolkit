@@ -7,7 +7,7 @@ import typer
 from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
 from rich.progress import track
 
-from .helpers import Helper
+from .helpers import init_output_dir
 
 
 class PDFKit:
@@ -60,7 +60,7 @@ class PDFKit:
                 step     (int)  : Step
         """
         # Init output folder first
-        Helper.init_output_dir()
+        init_output_dir()
 
         # Validate end
         pdf = PdfFileReader(pdf_path)
@@ -104,7 +104,7 @@ class PDFKit:
                 dir_path (Path) : PDF files path
         """
         # Init output folder first
-        Helper.init_output_dir()
+        init_output_dir()
         paths = list(dir_path.glob("*.pdf"))
         merger = PdfFileMerger()
 

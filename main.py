@@ -7,7 +7,7 @@ from pathlib import Path
 import typer
 from rich.prompt import IntPrompt
 
-from services.helpers import Helper
+from services.helpers import file_checker, dir_checker, file_ext_checker, get_header
 from services.pdf_kit import PDFKit
 
 
@@ -24,7 +24,7 @@ def pdf_split(
 
     """
     # Check file existance
-    Helper.file_checker(file_name)
+    file_checker(file_name)
     start = None
     end = None
     step = None
@@ -59,10 +59,10 @@ def pdf_combine(
 
     """
     # Check dir exists and not empty
-    Helper.dir_checker(files_dir)
+    dir_checker(files_dir)
 
     # Check if dir contains .pdf files
-    is_ext_exists = Helper.file_ext_checker(files_dir, "pdf")
+    is_ext_exists = file_ext_checker(files_dir, "pdf")
 
     # Raise if no pdf ext
     if not is_ext_exists:
@@ -73,5 +73,5 @@ def pdf_combine(
 
 
 if __name__ == "__main__":
-    Helper.header()
+    get_header()
     app()
