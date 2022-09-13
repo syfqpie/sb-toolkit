@@ -57,14 +57,24 @@ def dir_checker(file_path: Path):
         raise typer.Abort()
 
 
+def get_files_same_ext_path(file_path: Path, file_ext: str) -> list[Path]:
+    """
+    Get files with same extension paths
+
+    Only use it after checking directory existance
+    """
+    # Return with ext
+    return list(file_path.glob(f"*.{file_ext}"))
+
+
 def file_ext_checker(file_path: Path, file_ext: str) -> bool:
     """
-    Check for file extension(s) in a directory
+    Check for files with same extension in a directory
 
     Only use it after checking directory existance
     """
     # Get files with ext
-    paths = list(file_path.glob(f"*.{file_ext}"))
+    paths = get_files_same_ext_path(file_path, file_ext)
 
     # Return True if there's at least 1 path
     return bool(len(paths) > 0)
