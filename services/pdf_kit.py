@@ -4,7 +4,7 @@ PDFKit classes
 from pathlib import Path
 
 import typer
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from PyPDF2 import PdfFileMerger, PdfFileReader, PdfFileWriter
 from rich.progress import track
 
 from .helpers import Helper
@@ -94,3 +94,32 @@ class PDFKit:
             total += 1
 
         print(f"✔️ Splitted to { total } files.")
+
+    @staticmethod
+    def merge(dir_path: Path):
+        """
+        Merge pdfs in a directory
+
+        Parameters:
+                dir_path (Path) : PDF files path
+        """
+        # Init output folder first
+        Helper.init_output_dir()
+        paths = list(dir_path.glob("*.pdf"))
+        merger = PdfFileMerger()
+
+        # Append
+        for pat in paths:
+            with open(pat, "rb") as curr_file:
+                merger.append(curr_file)
+            curr_file.close()
+
+        # Write to output doc
+        with open("tmp_output/merged.pdf", "wb") as output_pdf:
+            merger.write(output_pdf)
+
+        # Close files
+        merger.close()
+        output_pdf.close()
+
+        print("✔️ Files merged")
