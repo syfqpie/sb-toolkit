@@ -1,6 +1,7 @@
 """
 Collection of helper methods
 """
+import time
 from pathlib import Path
 
 import typer
@@ -79,3 +80,10 @@ def init_output_dir():
         path_checker.mkdir()
     else:
         pass
+
+
+def get_unix() -> int:
+    """
+    Get current unix timestamp
+    """
+    return int(time.time())
