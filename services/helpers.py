@@ -1,5 +1,5 @@
 """
-Global helpers class
+Collection of helper methods
 """
 from pathlib import Path
 
@@ -7,82 +7,75 @@ import typer
 from rich import print as rprint
 
 
-class Helper:
+def get_header():
     """
-    Collection of helper methods
-
-    Methods
-    -------
-    header(pdf_path):
-        Print a header
-
-    file_checker(file_name):
-        Check for file existance and if empty
-
-    init_output_dir():
-        Check for output dir
+    Print a header
     """
+    txt = """[bold red]
+    
+        ▀▀█▀▀ █▀▀█ █▀▀█ █── ░█─▄▀ ─▀─ ▀▀█▀▀ 
+        ──█── █▄▀█ █▄▀█ █── ░█▀▄─ ▀█▀ ─░█── 
+        ──▀── █▄▄█ █▄▄█ ▀▀▀ ░█─░█ ▀▀▀ ─░█──
+        [/bold red]"""
+    rprint(txt)
 
-    @staticmethod
-    def header():
-        """
-        Print a header
-        """
-        txt = """[bold red]
-        
-            ▀▀█▀▀ █▀▀█ █▀▀█ █── ░█─▄▀ ─▀─ ▀▀█▀▀ 
-            ──█── █▄▀█ █▄▀█ █── ░█▀▄─ ▀█▀ ─░█── 
-            ──▀── █▄▄█ █▄▄█ ▀▀▀ ░█─░█ ▀▀▀ ─░█──
-            [/bold red]"""
-        rprint(txt)
 
-    @staticmethod
-    def file_checker(file_name: Path):
-        """
-        Check for file existance and if empty
-        """
-        if file_name and file_name.is_file():
-            print(f"✔️ File found: {file_name.resolve()}")
+def file_checker(file_name: Path):
+    """
+    Check for file existance and if empty
+    """
+    if file_name and file_name.is_file():
+        print(f"✔️ File found: {file_name.resolve()}")
+    else:
+        print("⚠️ File not found. Try again")
+        raise typer.Abort()
+
+
+def dir_checker(file_path: Path):
+    """
+    Check for directory existance and if empty
+    """
+    if file_path and file_path.is_dir():
+        if any(file_path.iterdir()):
+            print(f"✔️ File(s) path found: {file_path.resolve()}")
         else:
-            print("⚠️ File not found. Try again")
+            print("⚠️ File(s) path is empty. Try again")
             raise typer.Abort()
+    else:
+        print("⚠️ File(s) path not found. Try again")
+        raise typer.Abort()
 
-    @staticmethod
-    def dir_checker(file_path: Path):
-        """
-        Check for directory existance and if empty
-        """
-        if file_path and file_path.is_dir():
-            if any(file_path.iterdir()):
-                print(f"✔️ File(s) path found: {file_path.resolve()}")
-            else:
-                print("⚠️ File(s) path is empty. Try again")
-                raise typer.Abort()
-        else:
-            print("⚠️ File(s) path not found. Try again")
-            raise typer.Abort()
 
-    @staticmethod
-    def file_ext_checker(file_path: Path, file_ext: str) -> bool:
-        """
-        Check for file extension(s) in a directory
+def get_files_same_ext_path(file_path: Path, file_ext: str) -> list[Path]:
+    """
+    Get files with same extension paths
 
-        Only use it after checking directory existance
-        """
-        # Get files with ext
-        paths = list(file_path.glob(f"*.{file_ext}"))
+    Only use it after checking directory existance
+    """
+    # Return with ext
+    return list(file_path.glob(f"*.{file_ext}"))
 
-        # Return True if there's at least 1 path
-        return bool(len(paths) > 0)
 
-    @staticmethod
-    def init_output_dir():
-        """
-        Check for output dir, make dir if not found
-        """
-        path_checker = Path("tmp_output")
+def file_ext_checker(file_path: Path, file_ext: str) -> bool:
+    """
+    Check for files with same extension in a directory
 
-        if not path_checker.is_dir():
-            path_checker.mkdir()
-        else:
-            pass
+    Only use it after checking directory existance
+    """
+    # Get files with ext
+    paths = get_files_same_ext_path(file_path, file_ext)
+
+    # Return True if there's at least 1 path
+    return bool(len(paths) > 0)
+
+
+def init_output_dir():
+    """
+    Check for output dir, make dir if not found
+    """
+    path_checker = Path("tmp_output")
+
+    if not path_checker.is_dir():
+        path_checker.mkdir()
+    else:
+        pass

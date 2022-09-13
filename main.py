@@ -7,8 +7,8 @@ from pathlib import Path
 import typer
 from rich.prompt import IntPrompt
 
-from services.helpers import Helper
-from services.pdf_kit import PDFKit
+from services import helpers as Helper
+from services import pdf_kit as PDFKit
 
 
 app = typer.Typer()
@@ -73,5 +73,5 @@ def pdf_combine(
 
 
 if __name__ == "__main__":
-    Helper.header()
+    Helper.get_header()
     app()
