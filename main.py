@@ -11,7 +11,7 @@ from services import helpers as Helper
 from services import pdf_kit as PDFKit
 
 
-app = typer.Typer()
+app = typer.Typer(no_args_is_help=True)
 
 
 @app.command(no_args_is_help=True)
