@@ -120,6 +120,17 @@ def merge(dir_path: Path):
     paths = Helper.get_files_same_ext_path(dir_path, "pdf")
     merger = PdfFileMerger()
 
+    # Add metadata
+    merger.add_metadata(
+        {
+            "/Author": "ToolKiT",
+            "/Creator": "ToolKiT",
+            "/Producer": "ToolKiT",
+            "/Subject": "PDF Merged - ToolKiT",
+            "/Title": "PDF Merged",
+        }
+    )
+
     # Append pages
     for pat in paths:
         with open(pat, "rb") as curr_file:
