@@ -99,7 +99,7 @@ def merge(dir_path: Path):
     """
     # Init output folder first
     Helper.init_output_dir()
-    paths = list(dir_path.glob("*.pdf"))
+    paths = Helper.get_files_same_ext_path(dir_path, "pdf")
     merger = PdfFileMerger()
 
     # Append
