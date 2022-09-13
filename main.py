@@ -17,7 +17,7 @@ app = typer.Typer()
 @app.command(no_args_is_help=True)
 def pdf_split(
     file_name: Path = typer.Argument(..., help="PDF file name", metavar="🍄 file name"),
-    allpage: bool = typer.Option(False, help="All pages", metavar="🍄 all pages")
+    allpage: bool = typer.Option(False, help="All pages", metavar="🍄 all pages"),
 ):
     """
     Split PDF into files
