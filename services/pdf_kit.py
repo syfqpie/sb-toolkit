@@ -85,6 +85,7 @@ def split(pdf_path: Path, start: int = None, end: int = None, step: int = None):
     end_index = no_of_pages if end is None else end
     stepper = 1 if step is None or step == 0 else step
     total = 0
+    unix_time = Helper.get_unix()
 
     # Split
     for page in track(
@@ -98,7 +99,7 @@ def split(pdf_path: Path, start: int = None, end: int = None, step: int = None):
         pdf_writer.add_metadata(METADATA)
 
         # Name output and write
-        output = f"tmp_output/splitted_{ page + 1 }.pdf"
+        output = f"tmp_output/splitted_{ unix_time }_{ page + 1 }.pdf"
         with open(output, "wb") as output_pdf:
             pdf_writer.write(output_pdf)
 
@@ -120,18 +121,19 @@ def merge(dir_path: Path):
     Helper.init_output_dir()
     paths = Helper.get_files_same_ext_path(dir_path, "pdf")
     merger = PdfFileMerger()
+    unix_time = Helper.get_unix()
 
     # Add metadata
     merger.add_metadata(METADATA)
 
     # Append pages
-    for pat in paths:
+    for pat in track(paths, description="⌚ Merging..."):
         with open(pat, "rb") as curr_file:
             merger.append(curr_file)
         curr_file.close()
 
     # Write to output doc
-    with open("tmp_output/merged.pdf", "wb") as output_pdf:
+    with open(f"tmp_output/merged_{ unix_time }.pdf", "wb") as output_pdf:
         merger.write(output_pdf)
 
     # Close files
