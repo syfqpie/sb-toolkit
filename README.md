@@ -3,8 +3,15 @@
     width="700" />
 </div>
 <p align="center">
-  SB Python ToolKit. <em>Collection of random tools implemented using Python and 
-  <a href="https://github.com/tiangolo/typer" target="_blank">Typer</a>.</em>
+  <strong>
+    SB Python ToolKit.
+  <strong>
+</p>
+<p align="center">
+  <em>
+    Collection of random tools implemented using Python and 
+    <a href="https://github.com/tiangolo/typer" target="_blank">Typer</a>.
+  </em>
 </p>
 <br />
 
