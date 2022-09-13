@@ -48,6 +48,34 @@ class Helper:
             raise typer.Abort()
 
     @staticmethod
+    def dir_checker(file_path: Path):
+        """
+        Check for directory existance and if empty
+        """
+        if file_path and file_path.is_dir():
+            if any(file_path.iterdir()):
+                print(f"✔️ File(s) path found: {file_path.resolve()}")
+            else:
+                print("⚠️ File(s) path is empty. Try again")
+                raise typer.Abort()
+        else:
+            print("⚠️ File(s) path not found. Try again")
+            raise typer.Abort()
+
+    @staticmethod
+    def file_ext_checker(file_path: Path, file_ext: str) -> bool:
+        """
+        Check for file extension(s) in a directory
+
+        Only use it after checking directory existance
+        """
+        # Get files with ext
+        paths = list(file_path.glob(f"*.{file_ext}"))
+
+        # Return True if there's at least 1 path
+        return bool(len(paths) > 0)
+
+    @staticmethod
     def init_output_dir():
         """
         Check for output dir, make dir if not found
