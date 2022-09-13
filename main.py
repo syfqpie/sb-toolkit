@@ -46,6 +46,32 @@ def pdf_split(
     PDFKit.split(file_name, start, end, step)
 
 
+@app.command(no_args_is_help=True)
+def pdf_combine(
+    files_dir: Path = typer.Argument(
+        ...,
+        help="PDF files directory",
+        metavar="🍄 directory",
+    )
+):
+    """
+    Combine PDF into single file
+
+    """
+    # Check dir exists and not empty
+    Helper.dir_checker(files_dir)
+
+    # Check if dir contains .pdf files
+    is_ext_exists = Helper.file_ext_checker(files_dir, "pdf")
+
+    # Raise if no pdf ext
+    if not is_ext_exists:
+        raise typer.BadParameter("⚠️ Directory don't have any pdf file(s)")
+
+    # Merge
+    PDFKit.merge(files_dir)
+
+
 if __name__ == "__main__":
     Helper.header()
     app()
