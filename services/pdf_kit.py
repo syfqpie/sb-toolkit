@@ -21,6 +21,15 @@ from rich.progress import track
 from . import helpers as Helper
 
 
+METADATA = {
+    "/Author": "ToolKiT_by_sb",
+    "/Creator": "ToolKiT_by_sb",
+    "/Producer": "ToolKiT_by_sb",
+    "/Subject": "PDF Splitted - ToolKiT_by_sb",
+    "/Title": "PDF Splitted",
+}
+
+
 def extract_info(pdf_path: Path):
     """
     Extract info from PDF file
@@ -86,15 +95,7 @@ def split(pdf_path: Path, start: int = None, end: int = None, step: int = None):
         pdf_writer.addPage(pdf.getPage(page))
 
         # Add metadata
-        pdf_writer.add_metadata(
-            {
-                "/Author": "ToolKiT",
-                "/Creator": "ToolKiT",
-                "/Producer": "ToolKiT",
-                "/Subject": "PDF Splitted - ToolKiT",
-                "/Title": "PDF Splitted",
-            }
-        )
+        pdf_writer.add_metadata(METADATA)
 
         # Name output and write
         output = f"tmp_output/splitted_{ page + 1 }.pdf"
@@ -121,15 +122,7 @@ def merge(dir_path: Path):
     merger = PdfFileMerger()
 
     # Add metadata
-    merger.add_metadata(
-        {
-            "/Author": "ToolKiT",
-            "/Creator": "ToolKiT",
-            "/Producer": "ToolKiT",
-            "/Subject": "PDF Merged - ToolKiT",
-            "/Title": "PDF Merged",
-        }
-    )
+    merger.add_metadata(METADATA)
 
     # Append pages
     for pat in paths:
