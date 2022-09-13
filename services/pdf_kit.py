@@ -8,6 +8,9 @@ extract_info(pdf_path):
 
 split(pdf_path, start, end, step):
     Split PDF to pages
+
+merge(dir_path):
+    Merge pdfs in a directory
 """
 from pathlib import Path
 
@@ -21,6 +24,9 @@ from . import helpers as Helper
 def extract_info(pdf_path: Path):
     """
     Extract info from PDF file
+
+        Parameters:
+            pdf_path (Path) : PDF file path with file name
     """
     with open(pdf_path, "rb") as opened_file:
         pdf = PdfFileReader(opened_file)
@@ -102,7 +108,7 @@ def merge(dir_path: Path):
     paths = Helper.get_files_same_ext_path(dir_path, "pdf")
     merger = PdfFileMerger()
 
-    # Append
+    # Append pages
     for pat in paths:
         with open(pat, "rb") as curr_file:
             merger.append(curr_file)

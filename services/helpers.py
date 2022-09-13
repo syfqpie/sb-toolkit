@@ -1,16 +1,5 @@
 """
 Collection of helper methods
-
-Methods
--------
-get_header(pdf_path):
-    Print a header
-
-file_checker(file_name):
-    Check for file existance and if empty
-
-init_output_dir():
-    Check for output dir
 """
 from pathlib import Path
 
