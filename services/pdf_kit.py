@@ -90,8 +90,9 @@ def split(pdf_path: Path, start: int = None, end: int = None, step: int = None):
         with open(output, "wb") as output_pdf:
             pdf_writer.write(output_pdf)
 
-        # Total file splitted
+        # Update counter and close file
         total += 1
+        output_pdf.close()
 
     print(f"✔️ Splitted to { total } files.")
 
@@ -100,7 +101,7 @@ def merge(dir_path: Path):
     """
     Merge pdfs in a directory
 
-    Parameters:
+        Parameters:
             dir_path (Path) : PDF files path
     """
     # Init output folder first
