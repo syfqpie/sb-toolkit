@@ -11,7 +11,7 @@ from services import helpers as Helper
 from services import pdf_kit as PDFKit
 
 
-app = typer.Typer()
+app = typer.Typer(no_args_is_help=True)
 
 
 @app.command(no_args_is_help=True)
@@ -31,7 +31,13 @@ def pdf_split(
 
     # Prompt to get info
     if not allpage:
-        start = IntPrompt.ask("➡️ Start page")
+        # Validate no to be at least 1
+        while True:
+            start = IntPrompt.ask("➡️ Start page")
+            if start > 0:
+                break
+            print("⚠️ Must start with at least 1")
+
         end = IntPrompt.ask("➡️ End page")
         step = IntPrompt.ask("➡️ Step")
 

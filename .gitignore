@@ -78,5 +78,7 @@ venv.bak/
 # mkdocs documentation
 /site
 
-# Output
+# ToolKiT
 tmp_output/
+tmp_input/
+tmp_misc/

@@ -21,6 +21,15 @@ from rich.progress import track
 from . import helpers as Helper
 
 
+METADATA = {
+    "/Author": "ToolKiT_by_sb",
+    "/Creator": "ToolKiT_by_sb",
+    "/Producer": "ToolKiT_by_sb",
+    "/Subject": "PDF Splitted - ToolKiT_by_sb",
+    "/Title": "PDF Splitted",
+}
+
+
 def extract_info(pdf_path: Path):
     """
     Extract info from PDF file
@@ -76,6 +85,7 @@ def split(pdf_path: Path, start: int = None, end: int = None, step: int = None):
     end_index = no_of_pages if end is None else end
     stepper = 1 if step is None or step == 0 else step
     total = 0
+    unix_time = Helper.get_unix()
 
     # Split
     for page in track(
@@ -85,13 +95,17 @@ def split(pdf_path: Path, start: int = None, end: int = None, step: int = None):
         pdf_writer = PdfFileWriter()
         pdf_writer.addPage(pdf.getPage(page))
 
+        # Add metadata
+        pdf_writer.add_metadata(METADATA)
+
         # Name output and write
-        output = f"tmp_output/splitted_{ page + 1 }.pdf"
+        output = f"tmp_output/splitted_{ unix_time }_{ page + 1 }.pdf"
         with open(output, "wb") as output_pdf:
             pdf_writer.write(output_pdf)
 
-        # Total file splitted
+        # Update counter and close file
         total += 1
+        output_pdf.close()
 
     print(f"✔️ Splitted to { total } files.")
 
@@ -100,22 +114,26 @@ def merge(dir_path: Path):
     """
     Merge pdfs in a directory
 
-    Parameters:
+        Parameters:
             dir_path (Path) : PDF files path
     """
     # Init output folder first
     Helper.init_output_dir()
     paths = Helper.get_files_same_ext_path(dir_path, "pdf")
     merger = PdfFileMerger()
+    unix_time = Helper.get_unix()
+
+    # Add metadata
+    merger.add_metadata(METADATA)
 
     # Append pages
-    for pat in paths:
+    for pat in track(paths, description="⌚ Merging..."):
         with open(pat, "rb") as curr_file:
             merger.append(curr_file)
         curr_file.close()
 
     # Write to output doc
-    with open("tmp_output/merged.pdf", "wb") as output_pdf:
+    with open(f"tmp_output/merged_{ unix_time }.pdf", "wb") as output_pdf:
         merger.write(output_pdf)
 
     # Close files
